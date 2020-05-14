@@ -14,7 +14,7 @@ MySql Database (Sequalize): login/pw, points, trivia quesitons/answers
 API: https://opentdb.com/api_config.php
 Rating system - stars
 
-
+Polly: no, lets do this!
 
 
 Tasks:
