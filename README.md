@@ -15,9 +15,10 @@ API: https://opentdb.com/api_config.php
 Rating system - stars
 
 
-
+Lets do this
 
 Tasks:
+
 Austin: Login (passport)
 
 Curtis: set up database 
