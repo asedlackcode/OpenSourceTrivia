@@ -18,6 +18,7 @@ Polly: no, lets do this!
 
 
 Tasks:
+
 Austin: Login (passport)
 
 Curtis: set up database 
