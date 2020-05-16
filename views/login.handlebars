@@ -1,7 +1,7 @@
 <div class="container">
     <h3> Login to an existing Account </h3>
-    {{#if (messages.error)  }}
-    <div {{local.messages.error}}></div>
+    {{#if message }}
+    <div {{message}}></div>
     {{/if}}
     <form action="/login" method="POST">
         <div>
