@@ -1,0 +1,19 @@
+<div class="container">
+    <h3> Login to an existing Account </h3>
+    {{#if message }}
+    <div {{message}}></div>
+    {{/if}}
+    <form action="/login" method="POST">
+        <div>
+            <label for="name">Email</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div>
+            <label for="name">Password</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit" class="waves-effect waves-light btn" class="loginBtn">Login</button>
+        <br>or
+        <a href="/register">Register a new account</a>
+    </form>
+</div>
