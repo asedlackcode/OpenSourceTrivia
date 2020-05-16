@@ -7,7 +7,9 @@ var sequelize = require("../config/connection.js");
 var Login = sequelize.define("login", {
   
     // the usereName gets saved as a string
-  userName: Sequelize.STRING,
+  email: Sequelize.STRING,
+
+  name: Sequelize.STRING,
   
   // the user score gets saved as an integer
   password: Sequelize.INTEGER,
