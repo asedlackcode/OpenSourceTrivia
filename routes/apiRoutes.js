@@ -1,7 +1,7 @@
 const router = require("express").Router();
 
 // GET "/api/trivia" responds with all notes from the database
-router.get("/trivia", function(req, res) {
+router.get("/trivia", checkAuthenticated, function(req, res) {
    res.render("index", res)
 //     .getQuestions()
 //     .then(notes => res.json(notes))
@@ -23,5 +23,19 @@ router.get("/trivia", function(req, res) {
 //     .then(() => res.json({ ok: true }))
 //     .catch(err => res.status(500).json(err));
 // });
+
+function checkAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next()
+    }
+    res.redirect("/login")
+}
+
+function checkNotAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+      return  res.redirect("/")
+    }
+    next()
+}
 
 module.exports = router;
