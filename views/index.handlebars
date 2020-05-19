@@ -1,14 +1,17 @@
-<h1>Welcome {{name}}</h1>
-<form action="/logout?_method=DELETE" method="POST">
-<button type="submit">Log Out</button>
-</form>
+
 
 <nav class="uk-navbar-container" uk-navbar>
     <div class="uk-navbar-left">
+        <h5 class="welcome">Welcome {{name}}</h5>
+        <form action="/logout?_method=DELETE" method="POST">
+        <button type="submit" class="logout btn red right">Log Out</button>
+        </form>
+
         <ul class="uk-navbar-nav">
         </ul>
     </div>
 </nav>
+
 
 <div id="home">
     <a class="waves-effect waves-light btn" id="film">Film</a>
