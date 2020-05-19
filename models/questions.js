@@ -4,7 +4,7 @@ var Sequelize = require("sequelize");
 var sequelize = require("../config/connection.js");
 
 // Creates a "Scores" model that matches up with DB
-var Questions = sequelize.define("questions", {
+var Question = sequelize.define("Question", {
   
     // the usereName gets saved as a string
   userName: Sequelize.STRING,

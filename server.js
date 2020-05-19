@@ -5,6 +5,7 @@ var passport = require('passport');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
+var Sequelize =require("sequelize");
 
 // Initialize the app and create port
 var PORT = process.env.PORT || 8000;
@@ -14,9 +15,8 @@ app.use(express.static("public"));
 
 // Set up body parsing, static, and route middleware
 // Requiring our models for syncing
-var db = require("./models/scores.js");
-var db = require("./models/user.js");
-var db = require("./models/questions.js");
+var db = require("./models/index.js");
+
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -29,13 +29,11 @@ app.use(session({ secret: 'super-secret' }));
 app.use(passport.initialize());
 app.use(passport.session());
  
-passport.use(User.createStrategy());
+passport.use(db.User.createStrategy());
  
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+passport.serializeUser(db.User.serializeUser());
+passport.deserializeUser(db.User.deserializeUser());
 
-app.engine("handlebars", exphbs({ defaultLayout: "main" }));
-app.set("view engine", "handlebars");
 
 app.use("/api", apiRoutes);
 
@@ -51,7 +49,7 @@ var loginRoute = require("./routes/login");
 app.use(loginRoute);
 
 // Syncing our sequelize models and then starting our express app
-db.sequelize.sync({ force: true }).then(function() {
+db.Sequelize.sync({ force: true }).then(function() {
   app.listen(PORT, function() {
     console.log("App listening on http://localhost:" + PORT);
   });

@@ -4,7 +4,7 @@ var Sequelize = require("sequelize");
 var sequelize = require("../config/connection.js");
 
 // Creates a "Scores" model that matches up with DB
-var Scores = sequelize.define("scores", {
+var Score = sequelize.define("Score", {
   // the usereName gets saved as a string
   userName: Sequelize.STRING,
   // the user score gets saved as an integer
@@ -15,7 +15,7 @@ var Scores = sequelize.define("scores", {
 });
 
 // Syncs with DB
-Scores.sync();
+Score.sync();
 
 // Makes the Scores Model available for other files (will also create a table)
-module.exports = Scores;
+module.exports = Score;
