@@ -49,7 +49,7 @@ $(document).ready(function () {
       //var current = results[currentQuestion];
 
       //for (var i = 0; i < results.length; i++) {
-        var col = $("<div>").addClass("col s6");
+        var col = $("<div>").addClass("col s9 m9 l9");
         var card = $("<div>").addClass("card blue-grey darken-1");
         var body = $("<div>").addClass("card-content");
 
@@ -76,7 +76,7 @@ $(document).ready(function () {
           
           console.log(correctAnswer);
           console.log("Correct!");
-          var col = $("<div>").addClass("col s12");
+          var col = $("<div>").addClass("col s12 m12 l12");
           var card = $("<div>").addClass("card-panel green");
           var body = $("<div>").addClass("card-content");
           var correct = $("<p>").addClass("card-content").text("Correct!");

@@ -103,8 +103,11 @@
 
         </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+
+{{!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+        <script src="/socket.io/socket.io.js"></script>
 <script>
   $(function(){
     var socket = io.connect();
@@ -116,14 +119,50 @@
       e.preventDefault();
       console.log("Submitted");
       socket.emit("send message", $message.val());
-      $message.val("");
+      
+      $message.val(" ");
+    });
+    socket.on("new message", function(data){
+      console.log(data);
+       $chat.append('<div class="red lighten-5">'+data.msg+'</div>'); 
     });
 });
 </script>
 
+{{!-- <script>
+ var socket = io.connect('http://10.1.220.19:4200');
+ socket.on('connect', function(data) {
+    socket.emit('join', 'Hello World from client');
 
+    socket.on('messages', function(data) {
+                alert(data);
+      --}} -- });
 
+</script> --}}
 
+ <h1>Hello World!</h1>
+        <div id="future"></div>
+        <form id="form" id="chat_form">
+            <input id="chat_input" type="text">
+            <input type="submit" value="Send">
+        </form>
+         <script src="/jquery/dist/jquery.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+<script>
+ var socket = io.connect();
+ socket.on('connect', function(data) {
+    socket.emit('join', 'Hello World from client');
+ });
+ socket.on('broad', function(data) {
+         $('#chat').append(data+ "<br/>");
+   });
+
+ $('form').submit(function(e){
+     e.preventDefault();
+     var message = $('#message').val();
+     socket.emit('messages', message);
+ });
+</script>
 
         
 </body>
