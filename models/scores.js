@@ -10,7 +10,7 @@ var Scores = sequelize.define("scores", {
   // the user score gets saved as an integer
   score: Sequelize.INTEGER,
   // the date posted
-  date: Sequelize.DATE,
+  date: Sequelize.DATE
 
 });
 

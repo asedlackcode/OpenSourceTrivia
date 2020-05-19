@@ -8,6 +8,7 @@ var apiRoutes = require("./routes/apiRoutes.js");
 var PORT = process.env.PORT || 8000;
 var app = express();
 
+
 app.use(express.static("public"));
 
 // Set up body parsing, static, and route middleware
@@ -36,6 +37,30 @@ var questionRoute = require("./routes/question");
 app.use(loginRoute);
 app.use("/api", apiRoutes);
 app.use('/', questionRoute)
+
+//Socket io
+var server = require("http").createServer(app);
+var io = require("socket.io").listen(server);
+users = [];
+connections = [];
+
+io.sockets.on("connection", function (socket){
+    connections.push(socket);
+    console.log("Connected: %s sockets connected", connections.length);
+
+    // Disconnect
+    socket.on("disconnect", function(data){
+      connections.splice(connections.indexOf(socket), 1);
+      console.log("Disconnected: %s sockets connected", connections.length);
+    });
+    
+    //send message
+    socket.on("send message", function(data){
+      io.sockets.emit("new message", {msg: data});
+      console.log(data);
+    });
+    });
+
 
 // Syncing our sequelize models and then starting our express app
 db.sequelize.sync({ force: true }).then(function() {

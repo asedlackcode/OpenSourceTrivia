@@ -5,14 +5,13 @@ var sequelize = require("../config/connection.js");
 
 // Creates a "Scores" model that matches up with DB
 var Login = sequelize.define("login", {
-  // the usereName gets saved as a string
-  name: Sequelize.STRING,
-
-  email: Sequelize.STRING,
+  
+    // the usereName gets saved as a string
+  userName: Sequelize.STRING,
 
   // the user score gets saved as an integer
-  password: Sequelize.STRING,
-});
+  password: Sequelize.STRING
+})
 
 // Syncs with DB
 Login.sync();

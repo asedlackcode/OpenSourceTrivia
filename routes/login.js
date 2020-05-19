@@ -17,7 +17,12 @@ initializePassport(
     id => users.find(user => user.id === id)
 )
 
-const users = []
+const users = [{
+    id: '1589788228121',
+    name: 'polly',
+    email: 'p@gmail.com',
+    password: '$2b$10$mX.vZYKWY0xDWYF/mC5S2eeGwd4RVMTSX.3FVmnd/7GbKJPrGlMRG'
+  }]
 
 app.use(flash())
 app.use(session({
