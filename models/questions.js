@@ -13,7 +13,8 @@ var Questions = sequelize.define("questions", {
   question: Sequelize.STRING,
 
   // user answer to their question
-  answer: Sequelize.STRING
+  answer: Sequelize.STRING  
+
 });
 
 // Syncs with DB

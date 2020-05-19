@@ -10,7 +10,7 @@ var Login = sequelize.define("login", {
   userName: Sequelize.STRING,
   
   // the user score gets saved as an integer
-  password: Sequelize.INTEGER,
+  password: Sequelize.INTEGER
 
 });
 
