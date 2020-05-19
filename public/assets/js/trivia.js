@@ -5,7 +5,7 @@ $(document).ready(function () {
   var tv = "https://opentdb.com/api.php?amount=10&category=14&difficulty=easy&type=multiple";
   var sports = "https://opentdb.com/api.php?amount=10&category=21&difficulty=easy&type=multiple";
   var compSci = "https://opentdb.com/api.php?amount=10&category=18&difficulty=easy&type=multiple";
-  var answerSpan = document.querySelector("#answerInput").textContent;
+  // var answerSpan = document.querySelector("#answerInput").textContent;
 
 
 

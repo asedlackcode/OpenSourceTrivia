@@ -8,11 +8,10 @@ var Login = sequelize.define("login", {
   
     // the usereName gets saved as a string
   userName: Sequelize.STRING,
-  
-  // the user score gets saved as an integer
-  password: Sequelize.INTEGER
 
-});
+  // the user score gets saved as an integer
+  password: Sequelize.STRING
+})
 
 // Syncs with DB
 Login.sync();
