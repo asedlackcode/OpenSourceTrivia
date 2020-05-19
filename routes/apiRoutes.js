@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const Questions = require('../models/questions');
 
 // GET "/api/trivia" responds with all notes from the database
 router.get("/trivia", checkAuthenticated, function(req, res) {
@@ -23,6 +24,26 @@ router.get("/trivia", checkAuthenticated, function(req, res) {
 //     .then(() => res.json({ ok: true }))
 //     .catch(err => res.status(500).json(err));
 // });
+
+
+// add a question
+router.post('/new', function(req, res) {
+    console.log('Question Data:')
+    console.log(req.body);
+
+    Questions.create({
+        username: req.body.username,
+        question: req.body.question,
+        answer: req.body.answer
+    }).then(function(results) {
+        res.end();
+    })
+});
+
+router.get("/questions", checkAuthenticated, function(req, res) {
+    res.render("questions", res)
+});
+
 
 function checkAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {

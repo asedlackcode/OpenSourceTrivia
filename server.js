@@ -23,9 +23,6 @@ app.use(express.urlencoded({ extended: true }));
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
-app.use("/api", apiRoutes);
-
-
 var ExHb = require("express-handlebars");
 
 app.engine('handlebars', ExHb({ defaultLayout: 'main' }) )
@@ -33,8 +30,12 @@ app.set('view engine', 'handlebars');
 
 
 var loginRoute = require("./routes/login");
+var questionRoute = require("./routes/question");
+
 
 app.use(loginRoute);
+app.use("/api", apiRoutes);
+app.use('/', questionRoute)
 
 // Syncing our sequelize models and then starting our express app
 db.sequelize.sync({ force: true }).then(function() {
