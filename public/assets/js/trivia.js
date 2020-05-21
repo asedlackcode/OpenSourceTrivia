@@ -66,11 +66,11 @@ $(document).ready(function () {
 
 
       //takes entry from input field and compares it with the correct answer
-      $("#submitBtn").on("click", function checkAnswer(event) {
+      $("#chatSubmit").on("click", function checkAnswer(event) {
         event.preventDefault();
         $("#displayAnswer").empty();
-        var answer = $("#answerInput").val().trim().toLowerCase();
-        console.log(answer);
+        var answer = $("#message").val().trim().toLowerCase();
+        console.log(message);
         var correctAnswer = results[currentQuestion].correct_answer.toLowerCase();
         if (answer === correctAnswer) {
           
