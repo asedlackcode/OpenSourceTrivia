@@ -8,15 +8,27 @@ $(document).ready(function () {
   // var answerSpan = document.querySelector("#answerInput").textContent;
   var currentQuestion = 0;
   var score = 0;
-
-
+  
   //event listners for each button clicked to call correct API
   $("#film").on("click", function () {
-
+    var sec = 2 ;
+    var time = setInterval(myTimer, 1000);
     $("#displayTrivia").empty();
     console.log(film);
-    
     generateTrivia(film);
+     function myTimer() {
+      $('.timer').text(sec + "sec left");
+        sec--;
+     if (sec == -1) {
+        clearInterval(time);
+        alert("Your time is up!");
+        generateTrivia(film);
+        
+        //add card "time's up next question"
+    }
+  }
+
+    myTimer();
   });
 
   $("#tv").on("click", function () {
