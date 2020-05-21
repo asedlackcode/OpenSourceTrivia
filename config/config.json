@@ -1,7 +1,11 @@
 {
   "development": {
     "username": "root",
+<<<<<<< HEAD
     "password": "hello1234",
+=======
+    "password": "pollyServer1",
+>>>>>>> 04a519e5a20362b9e3df608fd7e4a95bb8d0833e
     "database": "trivia_db",
     "host": "127.0.0.1",
     "port": 3306,
