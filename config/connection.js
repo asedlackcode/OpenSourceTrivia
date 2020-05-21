@@ -4,7 +4,7 @@
 const Sequelize = require("sequelize");
 
 // Creates mySQL connection using Sequelize.
-const sequelize = new Sequelize('trivia_db', 'root', 'pollyServer1', {
+const sequelize = new Sequelize('trivia_db', 'root', 'hello1234', {
   host: 'localhost',
   port: 3306,
   dialect: 'mysql',
