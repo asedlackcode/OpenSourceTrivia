@@ -49,7 +49,7 @@ $(document).ready(function () {
       //var current = results[currentQuestion];
 
       //for (var i = 0; i < results.length; i++) {
-        var col = $("<div>").addClass("col s6");
+        var col = $("<div>").addClass("col s9 m9 l9");
         var card = $("<div>").addClass("card blue-grey darken-1");
         var body = $("<div>").addClass("card-content");
 
@@ -66,17 +66,17 @@ $(document).ready(function () {
 
 
       //takes entry from input field and compares it with the correct answer
-      $("#submitBtn").on("click", function checkAnswer(event) {
+      $("#chatSubmit").on("click", function checkAnswer(event) {
         event.preventDefault();
         $("#displayAnswer").empty();
-        var answer = $("#answerInput").val().trim().toLowerCase();
-        console.log(answer);
+        var answer = $("#message").val().trim().toLowerCase();
+        console.log(message);
         var correctAnswer = results[currentQuestion].correct_answer.toLowerCase();
         if (answer === correctAnswer) {
           
           console.log(correctAnswer);
           console.log("Correct!");
-          var col = $("<div>").addClass("col s12");
+          var col = $("<div>").addClass("col s12 m12 l12");
           var card = $("<div>").addClass("card-panel green");
           var body = $("<div>").addClass("card-content");
           var correct = $("<p>").addClass("card-content").text("Correct!");
