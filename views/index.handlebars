@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>Open Social Trivia</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
 </head>
@@ -45,7 +45,7 @@
         </div>
       </div>
     </div>
-  </form>
+  </form> 
 
   <div class="row">
     <div  id="displayTrivia"></div>
@@ -73,13 +73,15 @@
         <div class="card blue-grey darken-1">
           <div class="card-content white-text">
             <span class="card-title">Chat</span>
-            <div class="chat" id="chat"></div>
+            
             <form id="messageForm">
                 <div class="form-group">
                   <label>Enter Message</label>
                   <textarea class="form-control" id="message"></textarea> 
                   <br />
-                  <input type="submit" class="btn" value="Send Message">
+                  <input type="submit" class="btn" id="chatSubmit" value="Send Message">
+                  <br />
+                  <div class="chat" id="chat"></div>
                 </div>
             </form>
           </div>
@@ -104,28 +106,27 @@
 
         </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+ 
+       
+         <script src="/jquery/dist/jquery.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+
 <script>
-  $(function(){
-    var socket = io.connect();
-    var $messageForm = $("#messageForm");
-    var $message = $("#message");
-    var $chat = $("#chat");
+   var socket = io.connect();
+ socket.on('connect', function(data) {
+    socket.emit('join', 'Hello World from client');
+ });
+ socket.on('broad', function(data) {
+         $('#chat').prepend(`{{name}}: ` + data + "<br/>");
+   });
 
-    $messageForm.submit(function(e){
-      e.preventDefault();
-      console.log("Submitted");
-      socket.emit("send message", $message.val());
-      $message.val("");
-    });
-});
+ $('#chatSubmit').on("click",function(e){
+     e.preventDefault();
+     var message = $('#message').val();
+     socket.emit('messages', message);
+ });
 </script>
-
-
-
-
-
         
 </body>
 
