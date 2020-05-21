@@ -2,6 +2,7 @@ var express = require("express");
 var exphbs = require("express-handlebars");
 var apiRoutes = require("./routes/apiRoutes.js");
 
+let UserTransactions = require('./transactions/user')
 
 
 // Initialize the app and create port
@@ -81,18 +82,33 @@ io.on('connection', function (client) {
 
   });
   client.on('messages', function (data) {
-    client.emit('broad', data);
-    client.broadcast.emit('broad', data);
+
+    console.log('data recieved', data)
+
+    UserTransactions.findUserByEmail(data.email, function(user){
+
+      console.log("user that sent message", user)
+
+      client.emit('broad', {
+        name : user.name,
+        message : data.message
+      })
+
+      client.broadcast.emit('broad', {
+        name : user.name, 
+        message : data.message
+      })
+    })
   });
 
 });
 
-// server.listen(4200);
+
 
 
 // Syncing our sequelize models and then starting our express app
 db.sequelize.sync({
-  force: true
+  force: false
 }).then(function () {
   server.listen(PORT, function () {
     console.log("App listening on http://localhost:" + PORT);

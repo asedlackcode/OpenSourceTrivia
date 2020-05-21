@@ -14,6 +14,7 @@
 <nav class="uk-navbar-container" uk-navbar>
     <div class="uk-navbar-left">
         <h5 class="welcome">Welcome {{name}}</h5>
+        <span id="user-id" style="display: none;">{{email}}</span>
         <form action="/logout?_method=DELETE" method="POST">
         <button type="submit" class="logout btn red right">Log Out</button>
         </form>
@@ -36,7 +37,7 @@
 
   
 
-  <form>
+  {{!-- <form>
     <div class="input-field">
       <div class="row">
         <div class="input-field col s6">
@@ -47,7 +48,7 @@
         </div>
       </div>
     </div>
-  </form> 
+  </form>  --}}
 
   <div class="row">
     <div  id="displayTrivia"></div>
@@ -120,13 +121,18 @@
     socket.emit('join', 'Hello World from client');
  });
  socket.on('broad', function(data) {
-         $('#chat').prepend(`{{name}}: ` + data + "<br/>");
+   console.log(data)
+         $('#chat').prepend(`${data.name}: ` + data.message + "<br/>");
    });
 
  $('#chatSubmit').on("click",function(e){
      e.preventDefault();
-     var message = $('#message').val();
-     socket.emit('messages', message);
+     {{!-- var message = $('#message').val(); --}}
+     var chat = {
+        email: $("#user-id").html(), 
+        message: $('#message').val()
+     }
+     socket.emit('messages', chat);
  });
 </script>
         

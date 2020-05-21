@@ -3,7 +3,7 @@
 //     socket.emit('join', 'Hello World from client');
 //  });
 //  socket.on('broad', function(data) {
-//          $('#chat').prepend($('.welcome').text() + ": " + data + "<br/>");
+//          $('#chat').prepend($('.welcome').shift() + ": " + data + "<br/>");
 //    });
 
 //  $('#chatSubmit').on("click",function(e){
