@@ -1,13 +1,14 @@
 const router = require("express").Router();
-const Questions = require('../models/questions');
+// const Questions = require('../models/questions');
+var db = require("../models");
 
 // GET "/api/trivia" responds with all notes from the database
-router.get("/trivia", checkAuthenticated, function(req, res) {
-   res.render("index", res)
-//     .getQuestions()
-//     .then(notes => res.json(notes))
-   
-    // .catch(err => res.status(500).json(err));
+router.get("/trivia", checkAuthenticated, function (req, res) {
+  res.render("index", res);
+  //     .getQuestions()
+  //     .then(notes => res.json(notes))
+
+  // .catch(err => res.status(500).json(err));
 });
 
 // router.post("/notes", (req, res) => {
@@ -25,38 +26,44 @@ router.get("/trivia", checkAuthenticated, function(req, res) {
 //     .catch(err => res.status(500).json(err));
 // });
 
-
 // add a question
-router.post('/new', function(req, res) {
-    console.log('Question Data:')
-    console.log(req.body);
-
-    Questions.create({
-        username: req.body.username,
-        question: req.body.question,
-        answer: req.body.answer
-    }).then(function(results) {
-        res.end();
-    })
+router.post("/new", function (req, res) {
+  console.log("Question Data:");
+  console.log(req.body);
+  db.Questions.create({
+    username: req.body.username,
+    question: req.body.question,
+    answer: req.body.answer,
+  }).then(function (results) {
+    res.end();
+  });
 });
 
-router.get("/questions", checkAuthenticated, function(req, res) {
-    res.render("questions", res)
+router.get("/userQuestions", function (req, res) {
+  var query = {};
+  db.Questions.findAll({
+    where: query,
+  }).then(function (dbQuestions) {
+    res.json(dbQuestions);
+  });
 });
 
+router.get("/questions", checkAuthenticated, function (req, res) {
+  res.render("questions", res);
+});
 
 function checkAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next()
-    }
-    res.redirect("/api/trivia")
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect("/api/trivia");
 }
 
 function checkNotAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-      return  res.redirect("/")
-    }
-    next()
+  if (req.isAuthenticated()) {
+    return res.redirect("/");
+  }
+  next();
 }
 
 module.exports = router;

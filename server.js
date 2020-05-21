@@ -13,9 +13,11 @@ app.use(express.static("public"));
 
 // Set up body parsing, static, and route middleware
 // Requiring our models for syncing
-var db = require("./models/scores.js");
-var db = require("./models/login.js");
-var db = require("./models/questions.js");
+// var db = require("./models/scores.js");
+// var db = require("./models/login.js");
+// var db = require("./models/questions.js");
+// Requiring our models for syncing
+var db = require("./models");
 
 app.use(express.urlencoded({
   extended: false
