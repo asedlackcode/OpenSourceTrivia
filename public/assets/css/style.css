@@ -59,6 +59,6 @@ body{
 h4 {
 	border: 0;
 	height: 1px;
-	margin: 0;
+	margin: 0rem 0 .912rem 0 !important;
     background-image: linear-gradient(to right, rgba(255, 248, 248, 0.87), rgba(244, 244, 244, 0.75), rgba(0, 0, 0, 0));
 }
