@@ -31,6 +31,11 @@ $(document).ready(function () {
     generateTrivia(compSci);
   });
 
+  $("#userQ").on("click", function(){
+    $("#displayTrivia").empty();
+    generateTrivia("/api/userQuestions");
+  });
+
   //pull questions and auto-gen cards for questions and answers from trivia API
   function generateTrivia(selection) {
     $.ajax({
@@ -41,6 +46,7 @@ $(document).ready(function () {
 
       console.log(response);
       var results = response.results;
+      console.log(results);
 
       for (var i = 0; i < results.length; i++) {
         var col = $("<div>").addClass("col s6");
