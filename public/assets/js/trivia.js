@@ -46,6 +46,11 @@ $(document).ready(function () {
     generateTrivia(compSci);
   });
 
+  $("#userQ").on("click", function(){
+    $("#displayTrivia").empty();
+    generateTrivia("/api/userQuestions");
+  });
+
   //pull questions and auto-gen cards for questions and answers from trivia API
   function generateTrivia(selection) {
     $.ajax({
@@ -56,6 +61,7 @@ $(document).ready(function () {
       $("#displayTrivia").empty();
       console.log(response);
       var results = response.results;
+      console.log(results);
       var current = results[currentQuestion].question;
       //var currentA = results[currentQuestion].correct_answer;
       //var current = results[currentQuestion];
