@@ -65,7 +65,7 @@ $(document).ready(function () {
       var results = response.results;
       var currentQuestion = results[currentQuestionIndex].question;
       console.log(results);
-      var current = results[currentQuestion].question;
+      //var current = results[currentQuestionIndex].question;
       //var currentA = results[currentQuestion].correct_answer;
       //var current = results[currentQuestion];
 
