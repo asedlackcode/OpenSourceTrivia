@@ -17,3 +17,41 @@ body{
 #displayAnswer{
     height: 15px;
 }
+
+
+.chat {
+	padding: 30px;
+	max-height: 300px;
+	overflow-y: scroll;
+}
+
+
+#users {
+	
+	max-height: 130px;
+	overflow-y: scroll;
+}
+
+.chat-messages .message {
+	padding: 10px;
+	margin-bottom: 15px;
+	background-color: var(--light-color);
+	border-radius: 5px;
+}
+
+.chat-messages .message .meta {
+	font-size: 15px;
+	font-weight: bold;
+	color: var(--dark-color-b);
+	opacity: 0.7;
+	margin-bottom: 7px;
+}
+
+.chat-messages .message .meta span {
+	color: #777;
+}
+
+.meta{
+	font-size: 14px;
+	color:lightpink;
+}

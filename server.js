@@ -1,6 +1,7 @@
 var express = require("express");
 var exphbs = require("express-handlebars");
 var apiRoutes = require("./routes/apiRoutes.js");
+var formatMessage = require("./utils/messages");
 
 let UserTransactions = require('./transactions/user')
 
@@ -12,11 +13,6 @@ var app = express();
 
 app.use(express.static("public"));
 
-// Set up body parsing, static, and route middleware
-// Requiring our models for syncing
-// var db = require("./models/scores.js");
-// var db = require("./models/login.js");
-// var db = require("./models/questions.js");
 // Requiring our models for syncing
 var db = require("./models");
 
@@ -68,38 +64,72 @@ app.use('/', questionRoute)
 
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
+const chatBot = 'Chat Bot';
 
 app.use(express.static(__dirname + '/node_modules'));
 app.get('/', function (req, res, next) {
   // res.sendFile(__dirname + '/test.html');
 });
 
-io.on('connection', function (client) {
+//runs when Client connects
+io.on('connection', function (socket) {
   console.log('Client connected...');
 
-  client.on('join', function (data) {
-    console.log(data);
+ 
 
-  });
-  client.on('messages', function (data) {
 
-    console.log('data recieved', data)
+  //welcome current user -sends 'message' of Welcome! to client
+  socket.emit('messageBot', formatMessage(chatBot, 'Welcome to Open Social Trivia!'));
+ 
+   //Broadcase when user connects
+   socket.broadcast.emit('messageBot', formatMessage(chatBot, 'A user has joined'));
+
+   //Runs when client disconnects
+   socket.on('disconnect', () => {
+     io.emit('messageBot', formatMessage(chatBot,'A user has left'));
+     
+   })
+
+   socket.on('joinRoom', function(data){
+    UserTransactions.findUserByEmail(data.email, function(user){
+      io.emit('userList', {
+      name : user.name,
+      message : data.message
+    })
+
+    // socket.broadcast.emit('userList', {
+    //   name : user.name, 
+    //   message : data.message
+    // })
+    
+  })
+
+   })
+    
+
+  socket.on('messages', function (data) {
+
+    //console.log('data recieved', data)
 
     UserTransactions.findUserByEmail(data.email, function(user){
 
-      console.log("user that sent message", user)
+      //console.log("user that sent message", user)
 
-      client.emit('broad', {
+      socket.emit('broad', {
         name : user.name,
         message : data.message
       })
 
-      client.broadcast.emit('broad', {
+      socket.broadcast.emit('broad', {
         name : user.name, 
         message : data.message
       })
+
     })
   });
+
+  
+
 
 });
 
