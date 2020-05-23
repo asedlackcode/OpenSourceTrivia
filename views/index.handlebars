@@ -26,12 +26,12 @@
 
 
 <div id="home">
-    <a class="waves-effect waves-light btn" id="film">Film</a>
-    <a class="waves-effect waves-light btn" id="tv">Television</a>
-    <a class="waves-effect waves-light btn" id="sports">Sports</a>
-    <a class="waves-effect waves-light btn" id="compSci">Computer Science</a>
-    <a class="waves-effect waves-light btn" id="compSci">Random User Questions</a>
-
+    <a class="waves-effect waves-light btn apiBtn" id="film">Film</a>
+    <a class="waves-effect waves-light btn apiBtn" id="tv">Television</a>
+    <a class="waves-effect waves-light btn apiBtn" id="sports">Sports</a>
+    <a class="waves-effect waves-light btn apiBtn" id="compSci">Computer Science</a>
+    <a class="waves-effect waves-light btn apiBtn" id="compSci">Random User Questions</a>
+<br>
     ​
     <p class="timer" style="float: right; padding-right: 25px;"></p>
 
@@ -70,8 +70,28 @@
           </div>
 
         </div>
+<div class="row">
+          <div class="col s12 m12">
+            <div class="card blue-grey darken-1">
+              <div class="card-content white-text">
+                <span class="card-title">Online Users</span>
+                <ul class="list-group" id="users">
+                  <li>user1</li>
+                  <li>user1</li>
+                  <li>user1</li>
+                  <li>user1</li>
+                  <li>user1</li>
+                   <li>user1</li>
+                  <li>user1</li>
+                  </ul>
+              </div>
 
+            </div>
+          </div>
+
+        </div>
       </div>
+      
       <div class="col s9 m9">
         <div class="card blue-grey darken-1">
           <div class="card-content white-text">
@@ -79,12 +99,14 @@
             
             <form id="messageForm">
                 <div class="form-group">
+                  
+                  <div class="chat" id="chat"></div>
+
                   <label>Enter Message</label>
                   <textarea class="form-control" id="message"></textarea> 
                   <br />
                   <input type="submit" class="btn" id="chatSubmit" value="Send Message">
-                  <br />
-                  <div class="chat" id="chat"></div>
+                  
                 </div>
             </form>
           </div>
@@ -96,18 +118,7 @@
 
         
 
-        <div class="row">
-          <div class="col s3 m3 offset-s6">
-            <div class="card blue-grey darken-1">
-              <div class="card-content white-text">
-                <span class="card-title">Online Users</span>
-                <ul class="list-group" id="users"></ul>
-              </div>
-
-            </div>
-          </div>
-
-        </div>
+        
 
 
  
@@ -117,14 +128,19 @@
 
 <script>
    var socket = io.connect();
+   var chatMessages = document.querySelector(".chat");
+
  socket.on('connect', function(data) {
     socket.emit('join', 'Hello World from client');
  });
  socket.on('broad', function(data) {
    console.log(data)
-         $('#chat').prepend(`${data.name}: ` + data.message + "<br/>");
+         $('#chat').append('<div class="card-panel red lighten-2">' + `${data.name}: ` + data.message + "<br/>");
+   
+   //Scroll up
+   chatMessages.scrollTop = chatMessages.scrollHeight;
    });
-
+//on click, sents 'messages' to all users
  $('#chatSubmit').on("click",function(e){
      e.preventDefault();
      {{!-- var message = $('#message').val(); --}}

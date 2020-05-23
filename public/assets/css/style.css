@@ -17,3 +17,17 @@ body{
 #displayAnswer{
     height: 15px;
 }
+
+
+.chat {
+	padding: 30px;
+	max-height: 300px;
+	overflow-y: scroll;
+}
+
+
+#users {
+	
+	max-height: 130px;
+	overflow-y: scroll;
+}

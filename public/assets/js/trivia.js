@@ -9,14 +9,23 @@ $(document).ready(function () {
   var currentQuestion = 0;
   var score = 0;
   
+  function restartTimer(){
+    const seconds = 3;
+    sec --;
+  }
+
+  setInterval(restartTimer, 1000);
+
   //event listners for each button clicked to call correct API
   $("#film").on("click", function () {
     var sec = 2 ;
-    var time = setInterval(myTimer, 1000);
+    // var time = setInterval(myTimer, 1000);
     $("#displayTrivia").empty();
     console.log(film);
     generateTrivia(film);
      function myTimer() {
+      
+      var time = setInterval(myTimer, 1000);
       $('.timer').text(sec + "sec left");
         sec--;
      if (sec == -1) {
@@ -81,9 +90,12 @@ $(document).ready(function () {
       $("#chatSubmit").on("click", function checkAnswer(event) {
         event.preventDefault();
         $("#displayAnswer").empty();
-        var answer = $("#message").val().trim().toLowerCase();
-        console.log(message);
+        var answer = $("#message").message.val().trim().toLowerCase();
+        console.log($("#message").message);
         var correctAnswer = results[currentQuestion].correct_answer.toLowerCase();
+        console.log("answer: " + answer);
+        console.log("correct answer: " + correctAnswer);
+
         if (answer === correctAnswer) {
           
           console.log(correctAnswer);
@@ -101,6 +113,7 @@ $(document).ready(function () {
           $(".score").text(score);
           console.log(currentQuestion);
           
+          
           generateTrivia(selection);
         } else {
           var col = $("<div>").addClass("col s12");
@@ -111,6 +124,7 @@ $(document).ready(function () {
           col.append(card.append(body.append(wrong)));
           $("#displayAnswer").append(col);
           setTimeout( function() {$("#displayAnswer").empty()}, 3000);
+          
         }
       });
 
@@ -132,11 +146,11 @@ $(document).ready(function () {
   //});
 
   //clearing function to previous inputs
-  var answerClear = document.getElementById('displayAnswer');
-  var reSubmitBtn = document.getElementById('submitBtn');
+  var answerClear = document.getElementById('message');
+  var reSubmitBtn = document.getElementById('chatSubmit');
 
   reSubmitBtn.addEventListener('click', function () {
-    answerClear.innerHTML = "";
+    answerClear.value = "";
 
 
   });
