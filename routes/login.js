@@ -10,12 +10,12 @@ const flash = require("express-flash");
 const session = require("express-session");
 const methodOverride = require("method-override");
 
+let UserTransactions = require("../transactions/user")
+
 const initializePassport = require("../passport.config");
-initializePassport(
-    passport, 
-    email => users.find(user => user.email === email),
-    id => users.find(user => user.id === id)
-)
+initializePassport(passport)
+
+
 
 const users = [{
     id: '1589788228121',
@@ -36,7 +36,8 @@ app.use(passport.session())
 app.use(methodOverride("_method"))
 
 app.get('/', checkAuthenticated, (req,res) => {
-    res.render("index", { name: req.user.name })
+    console.log(req.user);
+    res.render("index", { name: req.user.name, email: req.user.email})
 });
 
 app.get('/login', checkNotAuthenticated, (req,res) => {
@@ -56,17 +57,15 @@ app.get('/register', checkNotAuthenticated, (req,res) => {
 app.post('/register', checkNotAuthenticated,  async (req,res) => {
     try {
         const hashedPass = await bcrypt.hash(req.body.password, 10)
-        users.push({
-            id: Date.now().toString(),
-            name: req.body.name,
-            email: req.body.email,
-            password: hashedPass
+
+        UserTransactions.createUser(req.body.name, req.body.email, hashedPass, function(newUser) {
+            console.log("good to go")
         })
         res.redirect("/login")
     } catch {
         res.redirect("/register")
     }
-   console.log(users);
+
    
 })
 

@@ -21,12 +21,13 @@ var Sequelize = require("sequelize");
 
 
 module.exports = function(sequelize, DataTypes) {
-  var Login = sequelize.define("Login", {
+  var User = sequelize.define("User", {
     
-    userName: DataTypes.STRING,
+    email : DataTypes.STRING,
+    name  : DataTypes.STRING,
+    password : DataTypes.STRING
 
-    password: DataTypes.STRING
   });
 
-  return Login;
+  return User;
 };
