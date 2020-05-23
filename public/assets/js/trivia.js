@@ -6,20 +6,13 @@ $(document).ready(function () {
   var sports = "https://opentdb.com/api.php?amount=10&category=21&difficulty=easy&type=multiple";
   var compSci = "https://opentdb.com/api.php?amount=10&category=18&difficulty=easy&type=multiple";
   // var answerSpan = document.querySelector("#answerInput").textContent;
-  var currentQuestion = 0;
+  var currentQuestionIndex = 0;
   var score = 0;
   
-  function restartTimer(){
-    const seconds = 3;
-    sec --;
-  }
-
-  setInterval(restartTimer, 1000);
-
   //event listners for each button clicked to call correct API
   $("#film").on("click", function () {
     var sec = 2 ;
-    // var time = setInterval(myTimer, 1000);
+    var time = setInterval(myTimer, 1000);
     $("#displayTrivia").empty();
     console.log(film);
     generateTrivia(film);
@@ -65,7 +58,7 @@ $(document).ready(function () {
       $("#displayTrivia").empty();
       console.log(response);
       var results = response.results;
-      var current = results[currentQuestion].question;
+      var currentQuestion = results[currentQuestionIndex].question;
       //var currentA = results[currentQuestion].correct_answer;
       //var current = results[currentQuestion];
 
@@ -77,26 +70,26 @@ $(document).ready(function () {
         // var m1 = $("<p>").addClass("card-content").text("a. " + results[i].incorrect_answers[0]);
         // var m2 = $("<p>").addClass("card-content").text("b. " + results[i].incorrect_answers[1]);
         // var m3 = $("<p>").addClass("card-content").text("c. " + results[i].incorrect_answers[2]);
-        var m4 = $("<p>").addClass("card-content").text("d. " + results[currentQuestion].correct_answer);
+        var m4 = $("<p>").addClass("card-content").text("d. " + results[currentQuestionIndex].correct_answer);
 
 
-        col.append(card.append(body.append(current, m4)));
+        col.append(card.append(body.append(currentQuestion, m4)));
         $("#displayTrivia").append(col);
      // }
-      console.log(results[currentQuestion].question)
+      console.log(results[currentQuestionIndex].question)
 
 
       //takes entry from input field and compares it with the correct answer
-      $("#chatSubmit").on("click", function checkAnswer(event) {
+      $("#chatSubmit").on("click", async function checkAnswer(event) {
         event.preventDefault();
         $("#displayAnswer").empty();
-        var answer = $("#message").message.val().trim().toLowerCase();
+        var answer = $("#message").val().trim();
         console.log($("#message").message);
-        var correctAnswer = results[currentQuestion].correct_answer.toLowerCase();
+        var correctAnswer = results[currentQuestionIndex].correct_answer;
         console.log("answer: " + answer);
         console.log("correct answer: " + correctAnswer);
 
-        if (answer === correctAnswer) {
+        if (answer.toLowerCase() === correctAnswer.toLowerCase()) {
           
           console.log(correctAnswer);
           console.log("Correct!");
@@ -108,11 +101,13 @@ $(document).ready(function () {
           col.append(card.append(body.append(correct, finalAnswer)));
           $("#displayAnswer").append(col);
           setTimeout( function() {$("#displayAnswer").empty()}, 3000);
-          currentQuestion++;
+          currentQuestionIndex++;
           score++;
           $(".score").text(score);
-          console.log(currentQuestion);
-          
+          console.log(currentQuestionIndex);
+
+          //clear messageForm
+          await document.getElementById('messageForm').reset();
           
           generateTrivia(selection);
         } else {
@@ -146,14 +141,14 @@ $(document).ready(function () {
   //});
 
   //clearing function to previous inputs
-  var answerClear = document.getElementById('message');
-  var reSubmitBtn = document.getElementById('chatSubmit');
+  // var answerClear = document.getElementById('message');
+  // var reSubmitBtn = document.getElementById('chatSubmit');
 
-  reSubmitBtn.addEventListener('click', function () {
-    answerClear.value = "";
+  // reSubmitBtn.addEventListener('click', function () {
+  //   answerClear.value = "";
 
 
-  });
+  // });
 
 
   var seconds = document.getElementById("countdown").textContent;

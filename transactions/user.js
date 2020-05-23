@@ -10,7 +10,7 @@ let userTransactions = {
             name : name, 
             password : password
         }).then( newUser => {
-            console.log("new user created, ", newUser)
+            //console.log("new user created, ", newUser)
             cb(newUser)
         }, error => {
             console.log("error creating new user", error)
@@ -37,7 +37,7 @@ let userTransactions = {
         db.User.findOne({
             where : { email : email }
         }).then( foundUser => {
-            console.log("user to be logged in ", foundUser)
+            //console.log("user to be logged in ", foundUser)
             cb(foundUser)
         }, err => {
             console.log("error is", err)
