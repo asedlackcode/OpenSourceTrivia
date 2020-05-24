@@ -50,9 +50,20 @@
     </div>
   </form>  --}}
 
+          
+
+
   <div class="row">
-    <div  id="displayTrivia"></div>
-    <div class="container col s3 m3" id="displayAnswer"></div>
+    <div  id="triviaDisplay">
+<br>
+    <div class= "col s9 m9 l9 card blue-grey darken-1 card-content" id="staticCard" style="padding: 15px; margin-left:11px;">
+      <span id="triviaDisplaySpan"></span>
+    </div>
+
+    </div>
+    <div class="container col s3 m3" id="displayAnswer">
+      
+    </div>
   </div>
   <div class="row">
   
@@ -119,79 +130,11 @@
 
 
  
-       <script src="/js/moment.min.js"></script>
+   
          <script src="/jquery/dist/jquery.js"></script>
         <script src="/socket.io/socket.io.js"></script>
 
-<script>
-   var socket = io.connect();
-   var chatMessages = document.querySelector(".chat");
-   
 
- //listens for when server sends 'connect' on and emits to server
- socket.on('connect', function(data) {
-    socket.emit('join', 'Hello World from client');
-     var onlineUsers = {
-        email: $("#user-id").html()
-     }
-     socket.emit('joinRoom', onlineUsers);
-    
- });
-
-  //listens from server 
-  socket.on('messageBot', message => {
-    outputMessage(message);
-    
-  })
-
- 
-
- socket.on('userList', data => {
-       $('#userList').append('<li>' + `${data.name}`+ "<br/>");
-       console.log("userlist client")
- })
-
-//listens for when server sends 'broad' and emits to server
- socket.on('broad', function(data) {
-   //console.log(data)
-    var currentTime = moment().format('h:mm a');
-         $('#chat').append('<div class="card-panel red lighten-2">' + `<p class="meta">${data.name}: <span>${currentTime}</span></p><p class="text">` +
-    data.message + "<br/>");
-
-  
-   //Scroll up
-   chatMessages.scrollTop = chatMessages.scrollHeight;
-   });
-
-
-  
-
-
-//on click, sends 'messages' to all users
- $('#chatSubmit').on("click",function(e){
-     e.preventDefault();
-     {{!-- var message = $('#message').val(); --}}
-     var chat = {
-        email: $("#user-id").html(), 
-        message: $('#message').val()
-     }
-     socket.emit('messages', chat);
- });
-
-//output message by messageBot to DOM
-function outputMessage(message) {
-  {{!-- $('#chat').append('<div class="card-panel red lighten-2">' + message + "<br/>"); --}}
-  const div = document.createElement('div');
-  div.className = 'card-panel red lighten-2 message';
-  div.innerHTML = `<p class="meta">${message.username} <span>${message.time}</span></p><p class="text">
-    ${message.text}
-    </p>`;
-    document.getElementById("chat").appendChild(div);
-}
-
-
-
-</script>
         
 </body>
 

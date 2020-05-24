@@ -113,10 +113,7 @@ $(document).ready(function () {
           $(".score").text(score);
           console.log(currentQuestionIndex);
 
-          //clear messageForm
-          await document.getElementById('messageForm').reset();
-          
-          generateTrivia(selection);
+                  generateTrivia(selection);
         } else {
           var col = $("<div>").addClass("col s12");
           var card = $("<div>").addClass("card-panel red");
@@ -128,6 +125,9 @@ $(document).ready(function () {
           setTimeout( function() {$("#displayAnswer").empty()}, 3000);
           
         }
+         //clear messageForm
+         await document.getElementById('messageForm').reset();
+         await document.getElementById('message').focus();
       });
 
     })

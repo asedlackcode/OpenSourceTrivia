@@ -39,29 +39,6 @@ app.use(loginRoute);
 app.use("/api", apiRoutes);
 app.use('/', questionRoute)
 
-//Socket io
-// var server = require("http").createServer(app);
-// var io = require("socket.io").listen(server);
-// users = [];
-// connections = [];
-
-// io.sockets.on("connection", function (socket){
-//     connections.push(socket);
-//     console.log("Connected: %s sockets connected", connections.length);
-
-//     // Disconnect
-//     socket.on("disconnect", function(data){
-//       connections.splice(connections.indexOf(socket), 1);
-//       console.log("Disconnected: %s sockets connected", connections.length);
-//     });
-
-//     //send message
-//     socket.on("send message", function(data){
-//       io.sockets.emit("new message", {msg: data});
-//       console.log(data);
-//     });
-//     });
-
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 const chatBot = 'Chat Bot';
@@ -97,10 +74,10 @@ io.on('connection', function (socket) {
       message : data.message
     })
 
-    // socket.broadcast.emit('userList', {
-    //   name : user.name, 
-    //   message : data.message
-    // })
+    socket.broadcast.emit('userList', {
+      name : user.name, 
+      message : data.message
+    })
     
   })
 
@@ -128,7 +105,8 @@ io.on('connection', function (socket) {
     })
   });
 
-  
+  //static card emit to client
+  io.emit('trivia', 'Who is the star of the AMC series Breaking Bad?');
 
 
 });
