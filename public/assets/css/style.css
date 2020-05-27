@@ -11,8 +11,13 @@ body{
 }
 
 #home {
-    margin: 5px;
+	margin: 15px;
+	
 }
+
+.backgroundImage{
+	background-image: url("../images/trivia-background.jpg");
+	}
 
 #displayAnswer{
     height: 15px;
@@ -26,10 +31,12 @@ body{
 }
 
 
-#users {
+#onlineUsers {
 	
-	max-height: 130px;
+	max-height: 300px;
 	overflow-y: scroll;
+	overflow: hidden;
+	box-shadow: 0 0 20px 8px rgba(52, 66, 3, 0.87);
 }
 
 .chat-messages .message {
@@ -53,9 +60,16 @@ body{
 
 .meta{
 	font-size: 14px;
-	color:lightpink;
+	color: #d81b60  ;
 }
 
+.logo{
+	text-align: center;
+}
+
+h3{
+	text-align: center;
+}
 h4 {
 	border: 0;
 	height: 1px;
@@ -64,8 +78,20 @@ h4 {
 }
 
 #staticCard{
-	height: 105px;
+	height: 125px;
+	max-height: 250px;
 	text-align: center;
 	vertical-align: middle;
-	line-height: 70px;
+	line-height: 105px;
+	box-shadow: 0 0 20px 8px #aa2b00f7;
+	padding: 45px;
+	font-size: medium;
+}
+
+#scoreCard{
+	box-shadow: 0 0 20px 8px rgba(52, 66, 3, 0.87);
+}
+
+#chatWindow{
+	box-shadow: 0 0 15px 6px #757575 ;
 }
