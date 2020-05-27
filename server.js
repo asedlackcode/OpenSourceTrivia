@@ -2,6 +2,7 @@ var express = require("express");
 var exphbs = require("express-handlebars");
 var apiRoutes = require("./routes/apiRoutes.js");
 var formatMessage = require("./utils/messages");
+var outputTriviaQuestion = require("./public/assets/js/triviaQuestions")
 
 let UserTransactions = require('./transactions/user')
 
@@ -52,20 +53,62 @@ app.get('/', function (req, res, next) {
 io.on('connection', function (socket) {
   console.log('Client connected...');
 
+  socket.on('joinRoom', function(data){
+    UserTransactions.findUserByEmail(data.email, function(user){
+      io.emit('userList', {
+      name : user.name
+      
+    })
+
+    socket.emit('userList', {
+      name : user.name
+      
+    })
  
+    
+  })
+})
 
-
-  //welcome current user -sends 'message' of Welcome! to client
+  //welcome current user -sends 'message' of Welcome! to single client thats connecting
   socket.emit('messageBot', formatMessage(chatBot, 'Welcome to Open Social Trivia!'));
  
-   //Broadcase when user connects
+   //Broadcase when user connects to everyone except user thats connection
    socket.broadcast.emit('messageBot', formatMessage(chatBot, 'A user has joined'));
 
    //Runs when client disconnects
-   socket.on('disconnect', () => {
-     io.emit('messageBot', formatMessage(chatBot,'A user has left'));
+   socket.on('disconnect', function (data) {
+    //UserTransactions.findUserByEmail(data.email, function(user){
+
+      //console.log("user that sent message", user)
+
+    //   socket.emit('userLeft', {
+    //     name : user.name,
+    //   message : "has let the Chat"
+      
+    //   })
+
+    //   socket.broadcast.emit('userLeft', {
+    //     name : user.name,
+    //   message : "has let the Chat"
+        
+    //   })
+
+    // })
+    // console.log(user.name)
+    //  })
+    UserTransactions.findUserByEmail(data.email, function(user){
+      socket.broadcast.emit('messageBot', formatMessage(chatBot,`A ${user} user has left the Chat`)), {
+      name : user.name
+    }
+    socket.emit('userListRefresh', {
+      name : user.name
+      
+    })
      
-   })
+    })
+ 
+  })
+
 
    socket.on('joinRoom', function(data){
     UserTransactions.findUserByEmail(data.email, function(user){
@@ -74,10 +117,10 @@ io.on('connection', function (socket) {
       message : data.message
     })
 
-    socket.broadcast.emit('userList', {
-      name : user.name, 
-      message : data.message
-    })
+    // socket.broadcast.emit('userList', {
+    //   name : user.name, 
+    //   message : data.message
+    // })
     
   })
 
@@ -106,7 +149,17 @@ io.on('connection', function (socket) {
   });
 
   //static card emit to client
-  io.emit('trivia', 'Who is the star of the AMC series Breaking Bad?');
+  //io.emit('trivia', "Who is the star of the AMC series Breaking Bad?","Walter White");
+
+  socket.on('trivia', function(data){
+    console.log(data);
+    socket.emit('apiQandA',{
+      question : data.question,
+      answer : data.answer
+    })
+  });
+  
+  
 
 
 });
