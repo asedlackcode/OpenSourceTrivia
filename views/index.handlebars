@@ -9,9 +9,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
 </head>
+<div class="backgroundImage">
 
-
-<nav class="uk-navbar-container" uk-navbar>
+<nav class="uk-navbar-container green darken-3" uk-navbar>
     <div class="uk-navbar-left">
         <h5 class="welcome">Welcome {{name}}</h5>
         <span id="user-id" style="display: none;">{{email}}</span>
@@ -26,21 +26,13 @@
 
 
 <div id="home">
-<<<<<<< HEAD
-    <a class="waves-effect waves-light btn apiBtn" id="film">Film</a>
-    <a class="waves-effect waves-light btn apiBtn" id="tv">Television</a>
-    <a class="waves-effect waves-light btn apiBtn" id="sports">Sports</a>
-    <a class="waves-effect waves-light btn apiBtn" id="compSci">Computer Science</a>
-    <a class="waves-effect waves-light btn apiBtn" id="compSci">Random User Questions</a>
-<br>
-=======
-    <a class="waves-effect waves-light btn" id="film">Film</a>
-    <a class="waves-effect waves-light btn" id="tv">Television</a>
-    <a class="waves-effect waves-light btn" id="sports">Sports</a>
-    <a class="waves-effect waves-light btn" id="compSci">Computer Science</a>
-    <a class="waves-effect waves-light btn" id="userQ">Random User Questions</a>
+    <a class="waves-effect waves-light btn red darken-3" id="film">Film</a>
+    <a class="waves-effect waves-light btn red darken-3" id="tv">Television</a>
+    <a class="waves-effect waves-light btn red darken-3" id="sports">Sports</a>
+    <a class="waves-effect waves-light btn red darken-3" id="compSci">Computer Science</a>
+    <a class="waves-effect waves-light btn red darken-3" id="userQ">Random User Questions</a>
+    <a class="waves-effect waves-light btn red darken-3" id="triviaQ">Socket Trivia</a>
 
->>>>>>> 0abd9103fb5dce28b2055c2de8a6734ceb8b68e2
     ​
     <p class="timer" style="float: right; padding-right: 25px;"></p>
 
@@ -59,21 +51,36 @@
     </div>
   </form>  --}}
 
+          
+
+
   <div class="row">
-    <div  id="displayTrivia"></div>
-    <div class="container col s3 m3" id="displayAnswer"></div>
+    <div  id="displayTrivia">
+<br>
+    <div class= "col s7 m7 l7 card white-text pink accent-4 card-content" id="staticCard" style="padding: 15px; margin-left:11px;">
+      <span class="loading" id="triviaDisplaySpan">Getting Ready</span>
+    </div>
+
+    </div>
+    <div class="container col s3 m3" id="displayAnswer">
+      
+    </div>
   </div>
   <div class="row">
   
       <div class="col s3 m3">
-        <div class="card blue-grey darken-1">
+        <div class="card green darken-3" id="scoreCard">
           <div class="card-content white-text">
-            <span class="card-title">Score Card</span>
-            <p><b>userName1</b> <p class="score">Score: ##</p><br>
-            <b>userName2</b> Score: ##<br>
-            <b>userName3</b> Score: ##<br>
-           <b>userName4</b> Score: ##<br>
-            <b>userName5</b> Score: ##
+            <span class="card-title ">Score Card</span>
+            <h4 class="card-title"></h4>
+            
+            <p class="score">
+              <b>Farish</b> Score: 100<br>
+              <b>Curtis</b> Score: 55<br>
+              <b>Austin</b> Score: 52<br>
+              <b>Polly</b> Score: 12<br>
+           
+
             
             </p>
           </div>
@@ -81,9 +88,10 @@
         </div>
 <div class="row">
           <div class="col s12 m12">
-            <div class="card blue-grey darken-1">
+            <div class="card green darken-3" id="onlineUsers">
               <div class="card-content white-text">
                 <span class="card-title">Online Users</span>
+                <h4 class="card-title"></h4>
                 <ul class="list-group" id="userList"></ul>
               </div>
 
@@ -94,9 +102,10 @@
       </div>
       
       <div class="col s9 m9">
-        <div class="card blue-grey darken-1">
+        <div class="card blue-grey darken-1" id="chatWindow">
           <div class="card-content white-text">
             <span class="card-title">Chat</span>
+            <h4 class="card-title"></h4>
             
             <form id="messageForm">
                 <div class="form-group">
@@ -106,7 +115,7 @@
                   <label>Enter Message</label>
                   <textarea class="form-control" id="message"></textarea> 
                   <br />
-                  <input type="submit" class="btn" id="chatSubmit" value="Send Message">
+                  <input type="submit" class="btn pink accent-4" id="chatSubmit" value="Send Message">
                   
                 </div>
             </form>
@@ -115,7 +124,7 @@
       </div>
     </div>
 
-       
+       </div>
 
         
 
@@ -123,79 +132,11 @@
 
 
  
-       <script src="/js/moment.min.js"></script>
+   
          <script src="/jquery/dist/jquery.js"></script>
         <script src="/socket.io/socket.io.js"></script>
 
-<script>
-   var socket = io.connect();
-   var chatMessages = document.querySelector(".chat");
-   
 
- //listens for when server sends 'connect' on and emits to server
- socket.on('connect', function(data) {
-    socket.emit('join', 'Hello World from client');
-     var onlineUsers = {
-        email: $("#user-id").html()
-     }
-     socket.emit('joinRoom', onlineUsers);
-    
- });
-
-  //listens from server 
-  socket.on('messageBot', message => {
-    outputMessage(message);
-    
-  })
-
- 
-
- socket.on('userList', data => {
-       $('#userList').append('<li>' + `${data.name}`+ "<br/>");
-       console.log("userlist client")
- })
-
-//listens for when server sends 'broad' and emits to server
- socket.on('broad', function(data) {
-   //console.log(data)
-    var currentTime = moment().format('h:mm a');
-         $('#chat').append('<div class="card-panel red lighten-2">' + `<p class="meta">${data.name}: <span>${currentTime}</span></p><p class="text">` +
-    data.message + "<br/>");
-
-  
-   //Scroll up
-   chatMessages.scrollTop = chatMessages.scrollHeight;
-   });
-
-
-  
-
-
-//on click, sends 'messages' to all users
- $('#chatSubmit').on("click",function(e){
-     e.preventDefault();
-     {{!-- var message = $('#message').val(); --}}
-     var chat = {
-        email: $("#user-id").html(), 
-        message: $('#message').val()
-     }
-     socket.emit('messages', chat);
- });
-
-//output message by messageBot to DOM
-function outputMessage(message) {
-  {{!-- $('#chat').append('<div class="card-panel red lighten-2">' + message + "<br/>"); --}}
-  const div = document.createElement('div');
-  div.className = 'card-panel red lighten-2 message';
-  div.innerHTML = `<p class="meta">${message.username} <span>${message.time}</span></p><p class="text">
-    ${message.text}
-    </p>`;
-    document.getElementById("chat").appendChild(div);
-}
-
-
-
-</script>
         
 </body>
 

@@ -2,6 +2,8 @@ var express = require("express");
 var exphbs = require("express-handlebars");
 var apiRoutes = require("./routes/apiRoutes.js");
 var formatMessage = require("./utils/messages");
+var outputTriviaQuestion = require("./public/assets/js/triviaQuestions")
+var {userJoin, getCurrentUser, userLeaves} = require("./public/assets/js/users")
 
 let UserTransactions = require('./transactions/user')
 
@@ -39,29 +41,6 @@ app.use(loginRoute);
 app.use("/api", apiRoutes);
 app.use('/', questionRoute)
 
-//Socket io
-// var server = require("http").createServer(app);
-// var io = require("socket.io").listen(server);
-// users = [];
-// connections = [];
-
-// io.sockets.on("connection", function (socket){
-//     connections.push(socket);
-//     console.log("Connected: %s sockets connected", connections.length);
-
-//     // Disconnect
-//     socket.on("disconnect", function(data){
-//       connections.splice(connections.indexOf(socket), 1);
-//       console.log("Disconnected: %s sockets connected", connections.length);
-//     });
-
-//     //send message
-//     socket.on("send message", function(data){
-//       io.sockets.emit("new message", {msg: data});
-//       console.log(data);
-//     });
-//     });
-
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 const chatBot = 'Chat Bot';
@@ -71,40 +50,106 @@ app.get('/', function (req, res, next) {
   // res.sendFile(__dirname + '/test.html');
 });
 
+
+
+let activeUsers = [];
+
 //runs when Client connects
 io.on('connection', function (socket) {
   console.log('Client connected...');
 
- 
-
-
-  //welcome current user -sends 'message' of Welcome! to client
-  socket.emit('messageBot', formatMessage(chatBot, 'Welcome to Open Social Trivia!'));
- 
-   //Broadcase when user connects
-   socket.broadcast.emit('messageBot', formatMessage(chatBot, 'A user has joined'));
-
-   //Runs when client disconnects
-   socket.on('disconnect', () => {
-     io.emit('messageBot', formatMessage(chatBot,'A user has left'));
-     
-   })
-
-   socket.on('joinRoom', function(data){
+  socket.on('joinRoom', function(data){
     UserTransactions.findUserByEmail(data.email, function(user){
-      io.emit('userList', {
-      name : user.name,
-      message : data.message
-    })
-
-    // socket.broadcast.emit('userList', {
-    //   name : user.name, 
-    //   message : data.message
+    //   io.emit('userList', {
+    //   name : user.name
     // })
     
-  })
 
-   })
+    // console.log("activeUsers: " + activeUsers)
+    // console.log("data: "+ data)
+    // console.log("username: " + user.name)
+  
+    const user1 = userJoin({
+      socketID: socket.id,
+      name: user.name,
+      email: user.email
+    
+  });
+
+  //console.log("line 78" + user1.email)
+  
+   
+  
+
+    io.emit('userListRefresh2', {
+      activeUsers : user1
+    })
+
+    
+     //Broadcast when user connects to everyone except user thats connection
+     socket.broadcast.emit('messageBot2', {
+        name : user.name,
+        message : "has joined the chat"
+     
+    })
+    
+    
+  })
+})
+
+  //welcome current user -sends 'message' of Welcome! to single client thats connecting
+  
+  socket.emit('messageBot', formatMessage(chatBot, 'Welcome to Open Social Trivia!'));
+ 
+ 
+   //socket.broadcast.emit('messageBot', formatMessage(chatBot, 'A user has joined'));
+
+   //Runs when client disconnects
+   socket.on('disconnect', function () {
+    const userLeft = userLeaves(socket.id);
+    socket.broadcast.emit('messageBot', formatMessage(chatBot, 'A User has left the Chat'));
+
+    
+   
+    
+    // UserTransactions.findUserByEmail(data.email, function(user){
+
+      function userDisconnect (activeUsers){
+        return activeUsers.socketID === socket.id} 
+
+      //console.log("line 112: " + activeUsers.find(socketID))
+     
+    //   socket.broadcast.emit('messageBot2', {
+    //     name : user.name,
+    //     message : "has left the chat"
+     
+     //})
+
+   
+    })
+  
+   
+     
+    // console.log("line 101 activeUsers when leaving: " + activeUsers)
+      
+    //   console.log("line 103 username leaving: " + user)
+    //   let position = activeUsers.indexOf('user.name')
+    //   console.log("position: "  + position);
+
+    // if (position >= 0)
+	  // activeUsers.splice(position, 1);
+    // console.log("current active users: " + activeUsers);
+      
+  
+    //   io.emit('userListRefresh2', {
+        
+    //     activeUsers : activeUsers
+    //   })
+     
+   
+      
+ 
+
     
 
   socket.on('messages', function (data) {
@@ -126,11 +171,36 @@ io.on('connection', function (socket) {
       })
 
     })
-  });
-
+  })
   
 
+  //static card emit to client
+  //io.emit('trivia', "Who is the star of the AMC series Breaking Bad?","Walter White");
 
+  socket.on('trivia', function(data){
+    
+    io.emit('apiQandA', {
+      question : data.question,
+      answer : data.answer
+    })
+    console.log(data);
+  });
+  
+  
+  //when someone gets correct answer
+  socket.on('correct', function(message, data){
+    UserTransactions.findUserByEmail(data.email, function(user){
+ 
+    io.emit('messageBot3', {
+      name : user.name,
+      message : `got the correct answer: ${message}!`
+      
+   
+  })
+  console.log("im server line 198")
+  })
+})
+ 
 });
 
 
