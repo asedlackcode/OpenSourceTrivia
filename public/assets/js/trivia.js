@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(document).ready(function start() {
 
 
   var film = "https://opentdb.com/api.php?amount=10&category=11&difficulty=easy&type=multiple";
@@ -11,50 +11,50 @@ $(document).ready(function () {
   
   //event listners for each button clicked to call correct API
   $("#film").on("click", function () {
-    var sec = 2 ;
-    var time = setInterval(myTimer, 1000);
+    //var sec = 2 ;
+    //var time = setInterval(myTimer, 1000);
     $("#displayTrivia").empty();
     console.log(film);
-     hideSocketDiv();
+     //hideSocketDiv();
     generateTrivia(film);
-     function myTimer() {
+     //function myTimer() {
       
-      var time = setInterval(myTimer, 1000);
-      $('.timer').text(sec + "sec left");
-        sec--;
-     if (sec == -1) {
-        clearInterval(time);
-        alert("Your time is up!");
-        generateTrivia(film);
+      
+    //   $('.timer').text(sec + "sec left");
+    //     sec--;
+    //  if (sec == -1) {
+    //     clearInterval(time);
+    //     alert("Your time is up!");
+    //     generateTrivia(film);
         
-        //add card "time's up next question"
-    }
-  }
+    //     //add card "time's up next question"
+    // }
+  //}
 
-    myTimer();
+   // myTimer();
   });
 
   $("#tv").on("click", function () {
-    hideSocketDiv();
+    //hideSocketDiv();
     $("#displayTrivia").empty();
        generateTrivia(tv);
   });
 
   $("#sports").on("click", function () {
     $("#displayTrivia").empty();
-    hideSocketDiv();
+    //hideSocketDiv();
     generateTrivia(sports);
   });
 
   $("#compSci").on("click", function () {
     $("#displayTrivia").empty();
-    hideSocketDiv();
+    //hideSocketDiv();
     generateTrivia(compSci);
   });
 
   $("#userQ").on("click", function(){
     $("#displayTrivia").empty();
-    hideSocketDiv();
+    //hideSocketDiv();
     generateTrivia("/api/userQuestions");
   });
 
@@ -65,6 +65,31 @@ $(document).ready(function () {
       url: selection,
       dataType: "json",
     }).then(function (response) {
+      var sec = 60;
+      var time = setInterval(myTimer, 1000);
+      function myTimer() {
+        $(".timer").text(sec + "sec left");
+        sec--;
+        if (sec == -1) {
+          clearInterval(time);
+          $("#displayTrivia").empty();
+          var col = $("<div>").addClass("center col s12 m4 l12");
+          var card = $("<div>").addClass("card red accent-4");
+          var body = $("<div>").addClass("card-content");
+          var text = $("<h1>").text("TIME'S UP!");
+          var scoreBtn = $("<button>").addClass("resetBtn waves-effect waves-light btn");
+          $(scoreBtn).text("Reset Game")
+          $(text).addClass("white-text")
+          $(text).attr("color: white;")
+          col.append(card.append(body.append(text, scoreBtn)));
+          $("#displayTrivia").append(col);
+
+          $(".resetBtn").on("click", function() {
+            $("#displayTrivia").empty();
+          })
+        }
+      }
+      myTimer()
       $("#displayTrivia").empty();
       console.log(response);
       var results = response.results;
@@ -77,14 +102,15 @@ $(document).ready(function () {
       //for (var i = 0; i < results.length; i++) {
         var col = $("<div>").addClass("col s9 m9 l9");
         var card = $("<div>").addClass("card white-text pink accent-4");
-        var body = $("<div>").addClass("card-content");
+        var body = $("<div>").addClass("mainQ card-content");
 
         // var m1 = $("<p>").addClass("card-content").text("a. " + results[i].incorrect_answers[0]);
         // var m2 = $("<p>").addClass("card-content").text("b. " + results[i].incorrect_answers[1]);
         // var m3 = $("<p>").addClass("card-content").text("c. " + results[i].incorrect_answers[2]);
         var m4 = $("<p>").addClass("card-content").text("d. " + results[currentQuestionIndex].correct_answer);
 
-
+        console.log(m4);
+        
         col.append(card.append(body.append(currentQuestion)));
         $("#displayTrivia").append(col);
      // }
@@ -115,7 +141,7 @@ $(document).ready(function () {
           setTimeout( function() {$("#displayAnswer").empty()}, 3000);
           currentQuestionIndex++;
           score++;
-          $(".score").text(score);
+         // $(".score").text(score);
           console.log(currentQuestionIndex);
 
                   generateTrivia(selection);
