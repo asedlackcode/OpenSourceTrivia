@@ -76,7 +76,7 @@ io.on('connection', function (socket) {
     
   });
 
-  console.log("line 78" + user1.email)
+  //console.log("line 78" + user1.email)
   
    
   
@@ -187,8 +187,20 @@ io.on('connection', function (socket) {
   });
   
   
-
-
+  //when someone gets correct answer
+  socket.on('correct', function(message, data){
+    UserTransactions.findUserByEmail(data.email, function(user){
+ 
+    io.emit('messageBot3', {
+      name : user.name,
+      message : `got the correct answer: ${message}!`
+      
+   
+  })
+  console.log("im server line 198")
+  })
+})
+ 
 });
 
 

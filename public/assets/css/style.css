@@ -17,6 +17,8 @@ body{
 
 .backgroundImage{
 	background-image: url("../images/trivia-background.jpg");
+	background-size:cover;
+	background-repeat: repeat-y
 	}
 
 #displayAnswer{
@@ -95,3 +97,28 @@ h4 {
 #chatWindow{
 	box-shadow: 0 0 15px 6px #757575 ;
 }
+
+.loading:after {
+	content: ' .';
+	animation: dots 1s steps(5, end) infinite;}
+  
+  @keyframes dots {
+	0%, 20% {
+	  color: rgba(0,0,0,0);
+	  text-shadow:
+		.25em 0 0 rgba(0,0,0,0),
+		.5em 0 0 rgba(0,0,0,0);}
+	40% {
+	  color: white;
+	  text-shadow:
+		.25em 0 0 rgba(0,0,0,0),
+		.5em 0 0 rgba(0,0,0,0);}
+	60% {
+	  text-shadow:
+		.25em 0 0 white,
+		.5em 0 0 rgba(0,0,0,0);}
+	80%, 100% {
+	  text-shadow:
+		.25em 0 0 white,
+		.5em 0 0 white;}}
+  

@@ -19,12 +19,16 @@
 
    })
 
+   //listens from server 
+   socket.on('messageBot2', message => {
+       chatNotice(message);
+   })
+
     //listens from server 
-    socket.on('messageBot2', message => {
-        chatNotice(message);
-        })
- 
-    
+    socket.on('messageBot3', message => {
+        chatNotice2(message);
+    })
+
 
 
    socket.on('userListRefresh2', data => {
@@ -34,13 +38,13 @@
        console.log(activeUsers.id.name)
        let userUL = document.getElementById('userList');
        //for (let i = 0; i < activeUsers.length; i++) {
-        let newJoinedUser = document.createElement("LI");
-        console.log(activeUsers.id.name)
-           newJoinedUser.appendChild(document.createTextNode(newSignedInUser));
-           
-           userUL.appendChild(newJoinedUser);
-console.log(userUL)
-     //  }
+       let newJoinedUser = document.createElement("LI");
+       console.log(activeUsers.id.name)
+       newJoinedUser.appendChild(document.createTextNode(newSignedInUser));
+
+       userUL.appendChild(newJoinedUser);
+       console.log(userUL)
+       //  }
    })
 
 
@@ -55,47 +59,47 @@ console.log(userUL)
    })
 
    //listsns from server when 'userlist' is emitted
-//    socket.on('userList', data => {
-//        let userUL = document.getElementById('userList');
-//        let newUser = data.name;
-//        let users = userUL.children;
-//        let userExist = false;
+   //    socket.on('userList', data => {
+   //        let userUL = document.getElementById('userList');
+   //        let newUser = data.name;
+   //        let users = userUL.children;
+   //        let userExist = false;
 
-//        console.log("Printing all current Users: ");
-//        for (let i = 0; i < users.length; i++) {
-//            console.log(users[i].innerText);
-//        }
+   //        console.log("Printing all current Users: ");
+   //        for (let i = 0; i < users.length; i++) {
+   //            console.log(users[i].innerText);
+   //        }
 
-//        for (let i = 0; i < users.length; i++) {
-//            let currentUserName = users[i].innerText;
-//            console.log("currentusername: " + currentUserName)
-//            if (currentUserName === newUser) {
-//                console.log(newUser + " already exists!");
-//                userExist = true;
-//                break;
-//            }
-//        }
+   //        for (let i = 0; i < users.length; i++) {
+   //            let currentUserName = users[i].innerText;
+   //            console.log("currentusername: " + currentUserName)
+   //            if (currentUserName === newUser) {
+   //                console.log(newUser + " already exists!");
+   //                userExist = true;
+   //                break;
+   //            }
+   //        }
 
-//        if (!userExist) {
-//            let newJoinedUser = document.createElement("LI");
-//            newJoinedUser.appendChild(document.createTextNode(newUser));
-//            userUL.appendChild(newJoinedUser);
-//        }
+   //        if (!userExist) {
+   //            let newJoinedUser = document.createElement("LI");
+   //            newJoinedUser.appendChild(document.createTextNode(newUser));
+   //            userUL.appendChild(newJoinedUser);
+   //        }
 
 
-//        console.log("Printing all Users Online again!: ");
-//        for (let i = 0; i < users.length; i++) {
-//            console.log(users[i].innerText);
-//        }
+   //        console.log("Printing all Users Online again!: ");
+   //        for (let i = 0; i < users.length; i++) {
+   //            console.log(users[i].innerText);
+   //        }
 
-     
 
-//    })
+
+   //    })
 
    //listens for when server sends 'broad' and emits to server
    socket.on('broad', function (data) {
        //console.log(data)
-       
+
        $('#chat').append('<div class="card-panel red lighten-2">' + `<p class="meta">${data.name}: <span>${currentTime}</span></p><p class="text">` +
            data.message + "<br/>");
 
@@ -175,14 +179,26 @@ console.log(userUL)
    //Join and Leave a chat
    function chatNotice(message) {
 
-    const div = document.createElement('div');
-    div.className = 'card-panel amber darken-1 message';
-    div.innerHTML = `<p class="meta">Chat Bot <span>${currentTime}</span></p><p class="text">
+       const div = document.createElement('div');
+       div.className = 'card-panel amber darken-1 message';
+       div.innerHTML = `<p class="meta">Chat Bot <span>${currentTime}</span></p><p class="text">
     ${message.name} ${message.message}
  </p>`;
-    document.getElementById("chat").appendChild(div);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-}
+       document.getElementById("chat").appendChild(div);
+       chatMessages.scrollTop = chatMessages.scrollHeight;
+   }
+
+      //correct answer annocement
+      function chatNotice2(message) {
+
+        const div = document.createElement('div');
+        div.className = 'card-panel blue message';
+        div.innerHTML = `<p class="meta">Chat Bot <span>${currentTime}</span></p><p class="text">
+     ${message.name} ${message.message}
+  </p>`;
+        document.getElementById("chat").appendChild(div); 
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
 
 
 
@@ -218,21 +234,78 @@ console.log(userUL)
 
    //listen for 'apiQandA'
    socket.on('apiQandA', function (data) {
-       //    console.log(question);
-       //    console.log(answer);
-       console.log(data.question)
-       console.log(data.answer)
-       
-       outputTriviaQuestion(data.question, data.answer);
-   })
+               console.log(data.question)
+               console.log(data.answer)
 
-   //listen for servier 'display apitrivia'
-   function outputTriviaQuestion(question, answer) {
-       const triviaDiv = document.getElementById("triviaDisplaySpan");
-       triviaDiv.className = answer;
-       triviaDiv.innerHTML = question;
-       //triviaDiv.append(question);
+                outputTriviaQuestion(data.question, data.answer);
 
-   }
+                var currentApiIndex = 0;
 
-  
+                   $('#chatSubmit').on("click", function checkApiAnswer(event) {
+                       event.preventDefault();
+                       
+                       console.log(currentApiIndex);
+                       var chat = {
+                        email: $("#user-id").html(),
+                        message: $('#message').val()
+                    }
+                    if (currentApiIndex < 10) {
+                   
+                       console.log(currentApiIndex)
+                       var answerInput = $("#message").val().trim();
+
+                       console.log("typed input: " + answerInput);
+                       let apiAnswer = data.answer;
+                       console.log("apiAnswer: " + apiAnswer)
+                       if (answerInput.toLowerCase() === apiAnswer.toLowerCase()) {
+                           var col = $("<div>").addClass("col s12 m12 l12");
+                           var card = $("<div>").addClass("card-panel green");
+                           var body = $("<div>").addClass("card-content");
+                           var correct = $("<p>").addClass("card-content").text("Correct!");
+                           var finalAnswer = $("<span>").addClass("card-content").text(apiAnswer);
+                           col.append(card.append(body.append(correct, finalAnswer)));
+                           $("#displayAnswer").append(col);
+                           setTimeout(function () {
+                               $("#displayAnswer").empty()
+                           }, 3000);
+                           socket.emit('correct', `${apiAnswer}`, chat)
+                           //console.log(`${apiAnswer}`)
+                           generateTriviaQ();
+                           currentApiIndex++;
+                       } 
+                    //    else {
+                    //        var col = $("<div>").addClass("col s12");
+                    //        var card = $("<div>").addClass("card-panel red");
+                    //        var body = $("<div>").addClass("card-content");
+                    //        var wrong = $("<p>").addClass("card-content").text("Oops! Try Again");
+                    //        //var finalAnswer = $("<span>").addClass("card-content").text(correctAnswer);
+                    //        col.append(card.append(body.append(wrong)));
+                    //        $("#displayAnswer").append(col);
+                    //        setTimeout(function () {
+                    //            $("#displayAnswer").empty()
+                    //        }, 3000);
+                           
+                       //}
+                       //clear messageForm
+                       //await document.getElementById('messageForm').reset();
+                       //await document.getElementById('message').focus();
+                    };
+                    });
+                
+                })
+
+
+
+
+
+
+
+
+                   //listen for servier 'display apitrivia'
+                   function outputTriviaQuestion(question, answer) {
+                       const triviaDiv = document.getElementById("triviaDisplaySpan");
+                       triviaDiv.className = answer;
+                       triviaDiv.innerHTML = question;
+                       //triviaDiv.append(question);
+
+                   }

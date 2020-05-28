@@ -35,7 +35,7 @@ $(document).ready(function () {
 
   $("#tv").on("click", function () {
     $("#displayTrivia").empty();
-    generateTrivia(tv);
+       generateTrivia(tv);
   });
 
   $("#sports").on("click", function () {
