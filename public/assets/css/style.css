@@ -3,11 +3,66 @@ body{
 }
 .welcome {
     margin-top: auto;
-    padding: 15px;
+	padding: 15px;
+	-webkit-text-stroke: black 2.5px;
+	font-weight: 900;
+	font-size: xx-large;
+}
+
+.resetBtn {
+	-webkit-text-stroke: black 1px;
+    font-weight: 900;
 }
 
 .logout {
-    margin: 5px;
+	margin: 5px;
+	position: absolute;
+	top: 8px;
+	right: 2px;
+	-webkit-text-stroke: black 1px;
+    font-weight: 900;
+}
+nav {
+	background-image: url(../images/open-social-trivia.png);
+	background-size: 640px;
+    background-position-y: -210px;
+    background-repeat: repeat;
+    background-position-x: center;
+}
+#film {
+	background-image: url(../images/film.jpg);
+	background-size: 75px;
+	background-position-y: -7px;
+	-webkit-text-stroke: black 1px;
+    font-weight: 900;
+}
+#tv {
+	background-image: url(../images/tv.jpg);
+	background-position-y: 66px;
+	background-size: 170px;
+	-webkit-text-stroke: black 1px;
+    font-weight: 900;
+}
+#sports {
+	background-image: url(../images/sports.jpg);
+	background-size: 100px;
+	background-position-y: -20px;
+	-webkit-text-stroke: black 1px;
+    font-weight: 900;
+}
+#compSci {
+	background-image: url(../images/computer\ sci.jpg);
+	background-size: 180px;
+	background-position-y: -65px;
+	-webkit-text-stroke: black 1px;
+    font-weight: 900;
+}
+#userQ {
+	background-image: url(../images/randomuser.jpg);
+	background-size: 240px;
+	background-position-y: center;
+	-webkit-text-stroke: black 1px;
+    font-weight: 900;
 }
 
 #home {
