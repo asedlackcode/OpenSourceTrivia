@@ -23,10 +23,10 @@ body{
     font-weight: 900;
 }
 nav {
-	background-image: url(../images/open-social-trivia.png);
+	/* background-image: url(../images/open-social-trivia.png); */
 	background-size: 640px;
     background-position-y: -210px;
-    background-repeat: repeat;
+    background-repeat: no-repeat;
     background-position-x: center;
 }
 #film {
@@ -66,8 +66,15 @@ nav {
 }
 
 #home {
-    margin: 5px;
+	margin: 15px;
+	
 }
+
+.backgroundImage{
+	background-image: url("../images/trivia-background.jpg");
+	background-size:cover;
+	background-repeat: repeat-y
+	}
 
 #displayAnswer{
     height: 15px;
@@ -81,10 +88,12 @@ nav {
 }
 
 
-#users {
+#onlineUsers {
 	
-	max-height: 130px;
+	max-height: 300px;
 	overflow-y: scroll;
+	overflow: hidden;
+	box-shadow: 0 0 20px 8px rgba(52, 66, 3, 0.87);
 }
 
 .chat-messages .message {
@@ -108,5 +117,73 @@ nav {
 
 .meta{
 	font-size: 14px;
-	color:lightpink;
+	color: #d81b60  ;
 }
+
+.logo{
+	text-align: center;
+}
+
+h3{
+	text-align: center;
+}
+h4 {
+	border: 0;
+	height: 1px;
+	margin: 0rem 0 .912rem 0 !important;
+    background-image: linear-gradient(to right, rgba(255, 248, 248, 0.87), rgba(244, 244, 244, 0.75), rgba(0, 0, 0, 0));
+}
+
+#staticCard{
+	height: 125px;
+	max-height: 250px;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 90px;
+	box-shadow: 0 0 20px 8px #aa2b00f7;
+	padding: 45px;
+	font-size: medium;
+}
+
+#scoreCard{
+	box-shadow: 0 0 20px 8px rgba(52, 66, 3, 0.87);
+}
+
+#chatWindow{
+	box-shadow: 0 0 15px 6px #757575 ;
+}
+
+.loading:after {
+	content: ' .';
+	animation: dots 1s steps(5, end) infinite;}
+  
+  @keyframes dots {
+	0%, 20% {
+	  color: rgba(0,0,0,0);
+	  text-shadow:
+		.25em 0 0 rgba(0,0,0,0),
+		.5em 0 0 rgba(0,0,0,0);}
+	40% {
+	  color: white;
+	  text-shadow:
+		.25em 0 0 rgba(0,0,0,0),
+		.5em 0 0 rgba(0,0,0,0);}
+	60% {
+	  text-shadow:
+		.25em 0 0 white,
+		.5em 0 0 rgba(0,0,0,0);}
+	80%, 100% {
+	  text-shadow:
+		.25em 0 0 white,
+		.5em 0 0 white;}}
+  
+		.mainQ{
+            height: 125px;
+            max-height: 250px;
+            text-align: center;
+            vertical-align: middle;
+            line-height: 70px;
+            box-shadow: 0 0 20px 8px #aa2b00f7;
+            padding: 45px;
+            font-size: medium;
+        }
