@@ -1,57 +1,58 @@
-body{
-    margin-top: 30px;
+body {
+  margin-top: 30px;
 }
 .welcome {
-    margin-top: auto;
-    padding: 15px;
+  margin-top: auto;
+  padding: 15px;
 }
 
 .logout {
-    margin: 5px;
+  margin: 5px;
 }
 
 #home {
-    margin: 5px;
+  margin: 5px;
 }
 
-#displayAnswer{
-    height: 15px;
+#displayAnswer {
+  height: 15px;
 }
-
 
 .chat {
-	padding: 30px;
-	max-height: 300px;
-	overflow-y: scroll;
+  padding: 30px;
+  max-height: 300px;
+  overflow-y: scroll;
 }
 
-
 #users {
-	
-	max-height: 130px;
-	overflow-y: scroll;
+  max-height: 130px;
+  overflow-y: scroll;
 }
 
 .chat-messages .message {
-	padding: 10px;
-	margin-bottom: 15px;
-	background-color: var(--light-color);
-	border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 15px;
+  background-color: var(--light-color);
+  border-radius: 5px;
 }
 
 .chat-messages .message .meta {
-	font-size: 15px;
-	font-weight: bold;
-	color: var(--dark-color-b);
-	opacity: 0.7;
-	margin-bottom: 7px;
+  font-size: 15px;
+  font-weight: bold;
+  color: var(--dark-color-b);
+  opacity: 0.7;
+  margin-bottom: 7px;
 }
 
 .chat-messages .message .meta span {
-	color: #777;
+  color: #777;
 }
 
-.meta{
-	font-size: 14px;
-	color:lightpink;
+.meta {
+  font-size: 14px;
+  color: lightpink;
+}
+
+.home {
+  display: inline-block;
 }

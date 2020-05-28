@@ -1,9 +1,9 @@
 <div class="row">
-    <form class="col s12" action="/question" method="POST">
+    <form class="col s12">
         <h3>Add your trivia question and answer here!</h3>
         <div class="row">
             <div class="input-field col s12">
-                <textarea  class="materialize-textarea" id="user" value='username'></textarea>
+                <textarea class="materialize-textarea" id="user" value='username'></textarea>
                 <label for="user">Username</label>
             </div>
         </div>
@@ -20,6 +20,16 @@
                 <label for="answer">Answer</label>
             </div>
         </div>
-        <button id='submit'>Submit</button>
+        <form action="/">
+            <button id='submit' class="home">Submit</button>
+            <button id="back-button" class="home">Back to Trivia</button>
+            <script>
+                $('#back-button').click(function (event) {
+                    event.preventDefault()
+                    console.log('we are leaving the page...')
+                    window.location.replace('/')
+                })
+            </script>
+        </form>
     </form>
 </div>

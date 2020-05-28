@@ -34,7 +34,7 @@ router.post("/new", function (req, res) {
   db.Questions.create({
     username: req.body.username,
     question: req.body.question,
-    answer: req.body.answer,
+    correct_answer: req.body.answer,
   }).then(function (results) {
     res.end();
   });
@@ -45,19 +45,19 @@ router.get("/userQuestions", function (req, res) {
     order: [
       // fn pulls from all of sequelizes functions and RAND stands
       //  for random and is one of them
-      Sequelize.fn('RAND')
-    ]
+      Sequelize.fn("RAND"),
+    ],
   })
-  .then((question) => {
-    // changing the response to match the other button ajax responses
-    const responseObject = {
-      results: [question]
-    }
-    res.json(responseObject);
-  })
-  .catch((err) => {
-    console.log(err);
-  })
+    .then((question) => {
+      // changing the response to match the other button ajax responses
+      const responseObject = {
+        results: [question],
+      };
+      res.json(responseObject);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   // db.Questions.findAll({
   //   where: query,
   // }).then(function (dbQuestions) {

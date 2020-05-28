@@ -1,34 +1,35 @@
 $(document).ready(function () {
-
-
-  var film = "https://opentdb.com/api.php?amount=10&category=11&difficulty=easy&type=multiple";
-  var tv = "https://opentdb.com/api.php?amount=10&category=14&difficulty=easy&type=multiple";
-  var sports = "https://opentdb.com/api.php?amount=10&category=21&difficulty=easy&type=multiple";
-  var compSci = "https://opentdb.com/api.php?amount=10&category=18&difficulty=easy&type=multiple";
+  var film =
+    "https://opentdb.com/api.php?amount=10&category=11&difficulty=easy&type=multiple";
+  var tv =
+    "https://opentdb.com/api.php?amount=10&category=14&difficulty=easy&type=multiple";
+  var sports =
+    "https://opentdb.com/api.php?amount=10&category=21&difficulty=easy&type=multiple";
+  var compSci =
+    "https://opentdb.com/api.php?amount=10&category=18&difficulty=easy&type=multiple";
   // var answerSpan = document.querySelector("#answerInput").textContent;
   var currentQuestionIndex = 0;
   var score = 0;
-  
+
   //event listners for each button clicked to call correct API
   $("#film").on("click", function () {
-    var sec = 2 ;
+    var sec = 2;
     var time = setInterval(myTimer, 1000);
     $("#displayTrivia").empty();
     console.log(film);
     generateTrivia(film);
-     function myTimer() {
-      
+    function myTimer() {
       var time = setInterval(myTimer, 1000);
-      $('.timer').text(sec + "sec left");
-        sec--;
-     if (sec == -1) {
+      $(".timer").text(sec + "sec left");
+      sec--;
+      if (sec == -1) {
         clearInterval(time);
         alert("Your time is up!");
         generateTrivia(film);
-        
+
         //add card "time's up next question"
+      }
     }
-  }
 
     myTimer();
   });
@@ -48,7 +49,7 @@ $(document).ready(function () {
     generateTrivia(compSci);
   });
 
-  $("#userQ").on("click", function(){
+  $("#userQ").on("click", function () {
     $("#displayTrivia").empty();
     generateTrivia("/api/userQuestions");
   });
@@ -65,26 +66,26 @@ $(document).ready(function () {
       var results = response.results;
       var currentQuestion = results[currentQuestionIndex].question;
       console.log(results);
-      var current = results[currentQuestion].question;
+      // var current = results[currentQuestion].question;
       //var currentA = results[currentQuestion].correct_answer;
       //var current = results[currentQuestion];
 
       //for (var i = 0; i < results.length; i++) {
-        var col = $("<div>").addClass("col s9 m9 l9");
-        var card = $("<div>").addClass("card blue-grey darken-1");
-        var body = $("<div>").addClass("card-content");
+      var col = $("<div>").addClass("col s9 m9 l9");
+      var card = $("<div>").addClass("card blue-grey darken-1");
+      var body = $("<div>").addClass("card-content");
 
-        // var m1 = $("<p>").addClass("card-content").text("a. " + results[i].incorrect_answers[0]);
-        // var m2 = $("<p>").addClass("card-content").text("b. " + results[i].incorrect_answers[1]);
-        // var m3 = $("<p>").addClass("card-content").text("c. " + results[i].incorrect_answers[2]);
-        var m4 = $("<p>").addClass("card-content").text("d. " + results[currentQuestionIndex].correct_answer);
+      // var m1 = $("<p>").addClass("card-content").text("a. " + results[i].incorrect_answers[0]);
+      // var m2 = $("<p>").addClass("card-content").text("b. " + results[i].incorrect_answers[1]);
+      // var m3 = $("<p>").addClass("card-content").text("c. " + results[i].incorrect_answers[2]);
 
+      var m4 = $("<p>").addClass("card-content");
+      // .text("d. " + results[currentQuestionIndex].correct_answer);
 
-        col.append(card.append(body.append(currentQuestion, m4)));
-        $("#displayTrivia").append(col);
-     // }
-      console.log(results[currentQuestionIndex].question)
-
+      col.append(card.append(body.append(currentQuestion, m4)));
+      $("#displayTrivia").append(col);
+      // }
+      console.log(results[currentQuestionIndex].question);
 
       //takes entry from input field and compares it with the correct answer
       $("#chatSubmit").on("click", async function checkAnswer(event) {
@@ -97,26 +98,36 @@ $(document).ready(function () {
         console.log("correct answer: " + correctAnswer);
 
         if (answer.toLowerCase() === correctAnswer.toLowerCase()) {
-          
           console.log(correctAnswer);
           console.log("Correct!");
           var col = $("<div>").addClass("col s12 m12 l12");
           var card = $("<div>").addClass("card-panel green");
           var body = $("<div>").addClass("card-content");
           var correct = $("<p>").addClass("card-content").text("Correct!");
-          var finalAnswer = $("<span>").addClass("card-content").text(correctAnswer);
+          var finalAnswer = $("<span>")
+            .addClass("card-content")
+            .text(correctAnswer);
           col.append(card.append(body.append(correct, finalAnswer)));
           $("#displayAnswer").append(col);
-          setTimeout( function() {$("#displayAnswer").empty()}, 3000);
+          setTimeout(function () {
+            $("#displayAnswer").empty();
+          }, 3000);
           currentQuestionIndex++;
           score++;
           $(".score").text(score);
           console.log(currentQuestionIndex);
 
           //clear messageForm
-          await document.getElementById('messageForm').reset();
-          
+          await document.getElementById("messageForm").reset();
+
           generateTrivia(selection);
+
+          var chat = {
+            email: $("#user-id").html(),
+            message: "Your Correct !",
+          };
+
+          socket.emit("messages", chat);
         } else {
           var col = $("<div>").addClass("col s12");
           var card = $("<div>").addClass("card-panel red");
@@ -125,25 +136,20 @@ $(document).ready(function () {
           //var finalAnswer = $("<span>").addClass("card-content").text(correctAnswer);
           col.append(card.append(body.append(wrong)));
           $("#displayAnswer").append(col);
-          setTimeout( function() {$("#displayAnswer").empty()}, 3000);
-          
+          setTimeout(function () {
+            $("#displayAnswer").empty();
+          }, 3000);
+
+          var chat = {
+            email: $("#user-id").html(),
+            message: "Wrong Answer Buddy",
+          };
+
+          socket.emit("messages", chat);
         }
       });
-
-    })
-
-
-
-
-
-
-
-
-
-  };
-
-
-
+    });
+  }
 
   //});
 
@@ -154,9 +160,7 @@ $(document).ready(function () {
   // reSubmitBtn.addEventListener('click', function () {
   //   answerClear.value = "";
 
-
   // });
-
 
   var seconds = document.getElementById("countdown").textContent;
   var countdown = setInterval(function () {
@@ -164,10 +168,4 @@ $(document).ready(function () {
     document.getElementById("countdown").textContent = seconds;
     if (seconds <= 0) clearInterval(countdown);
   }, 1000);
-
-
-
-
-
-
 });
