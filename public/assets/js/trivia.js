@@ -15,6 +15,7 @@ $(document).ready(function () {
     var time = setInterval(myTimer, 1000);
     $("#displayTrivia").empty();
     console.log(film);
+     hideSocketDiv();
     generateTrivia(film);
      function myTimer() {
       
@@ -34,22 +35,26 @@ $(document).ready(function () {
   });
 
   $("#tv").on("click", function () {
+    hideSocketDiv();
     $("#displayTrivia").empty();
        generateTrivia(tv);
   });
 
   $("#sports").on("click", function () {
     $("#displayTrivia").empty();
+    hideSocketDiv();
     generateTrivia(sports);
   });
 
   $("#compSci").on("click", function () {
     $("#displayTrivia").empty();
+    hideSocketDiv();
     generateTrivia(compSci);
   });
 
   $("#userQ").on("click", function(){
     $("#displayTrivia").empty();
+    hideSocketDiv();
     generateTrivia("/api/userQuestions");
   });
 
@@ -71,7 +76,7 @@ $(document).ready(function () {
 
       //for (var i = 0; i < results.length; i++) {
         var col = $("<div>").addClass("col s9 m9 l9");
-        var card = $("<div>").addClass("card blue-grey darken-1");
+        var card = $("<div>").addClass("card white-text pink accent-4");
         var body = $("<div>").addClass("card-content");
 
         // var m1 = $("<p>").addClass("card-content").text("a. " + results[i].incorrect_answers[0]);
@@ -80,7 +85,7 @@ $(document).ready(function () {
         var m4 = $("<p>").addClass("card-content").text("d. " + results[currentQuestionIndex].correct_answer);
 
 
-        col.append(card.append(body.append(currentQuestion, m4)));
+        col.append(card.append(body.append(currentQuestion)));
         $("#displayTrivia").append(col);
      // }
       console.log(results[currentQuestionIndex].question)
@@ -165,7 +170,11 @@ $(document).ready(function () {
     if (seconds <= 0) clearInterval(countdown);
   }, 1000);
 
-
+ function hideSocketDiv(){
+  var socketDiv = document.getElementById('staticCard')
+  socketDiv.setAttribute("class","hide");
+ }
+  
 
 
 
