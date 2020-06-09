@@ -19,6 +19,7 @@
   "homepage": "https://github.com/asedlackcode/Project2#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "compression": "^1.7.4",
     "express": "^4.17.1",
     "express-flash": "0.0.2",
     "express-handlebars": "^4.0.4",

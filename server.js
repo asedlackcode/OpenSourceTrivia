@@ -1,5 +1,6 @@
 var express = require("express");
 var exphbs = require("express-handlebars");
+var compression = require("compression");
 var apiRoutes = require("./routes/apiRoutes.js");
 var formatMessage = require("./utils/messages");
 var outputTriviaQuestion = require("./public/assets/js/triviaQuestions")
@@ -12,7 +13,7 @@ let UserTransactions = require('./transactions/user')
 var PORT = process.env.PORT || 8000;
 var app = express();
 
-
+app.use(compression());
 app.use(express.static("public"));
 
 // Requiring our models for syncing
